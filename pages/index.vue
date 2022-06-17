@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header/>
-    <Menu/>
     <br><br>
     <Sample/>
     <Footer/>

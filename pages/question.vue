@@ -1,11 +1,29 @@
 <template>
   <div>
     <Header/>
-    <Menu/>
     <br><br>
     <div class="question">
     <div class="one">
-      <form method="post" novalidate="true" @submit.prevent>
+      <div v-if="!active" class="result">
+        <h4>result</h4>
+        <div class="parts">
+          <div class="part">{{ line[0] }}</div>
+          <div class="part">{{ line[1] }}</div>
+          <div class="part">{{ line[2] }}</div>
+          <div class="part">{{ line[3] }}</div>
+          <div class="part">{{ line[4] }}</div>
+        </div>
+        <div class="parts">
+          <div class="part">{{ sumAll[0] }}</div>
+          <div class="part">{{ sumAll[1] }}</div>
+          <div class="part">{{ sumAll[2] }}</div>
+          <div class="part">{{ sumAll[3] }}</div>
+          <div class="part">{{ sumAll[4] }}</div>
+        </div>
+        <br>
+        <p>グラフ作るの難しくてできなかったごめんね</p>
+      </div>
+      <form v-if="active" method="post" novalidate="true" @submit.prevent>
         <div class="sentence">{{ index+1+': '+sentences[index] }}</div>
         <div calss="labels">
           <label><input type="radio" v-model="pick" value="2" @click="submit">はい</label>
@@ -25,6 +43,7 @@
 export default {
   data() {
     return {
+      active: true,
       index: 0,
       pick: -1,
       line: ['CP', 'NP', 'A', 'FC', 'AC'],
@@ -98,7 +117,7 @@ export default {
         // this.$router.push('./result')
         this.column[this.index] = this.pick
         this.calc()
-        this.graph()
+        this.active = !this.active
       }
       this.index++
       this.$router.push('./question')
@@ -116,7 +135,7 @@ export default {
         this.sumAll[4] += parseInt(this.column[this.numAll.numAC[n]])
       }
       this.sumAll[1] += parseInt(this.column[this.index])
-    }
+    },
   }
 }
 </script>
@@ -160,5 +179,20 @@ label {
 label:active {
   background: gray;
   color: white;
+}
+.result{
+  font-size: 1.2rem;
+}
+.part {
+  display: flex;
+  margin: auto;
+  padding: 5px;
+  font-size: 1rem;
+}
+.parts {
+  display: flex;
+  padding: 5px;
+  margin: 0 10px;
+  box-shadow: 1px 0 4px 3px lightgray;
 }
 </style>
